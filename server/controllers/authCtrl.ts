@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
-import { UserInterface } from '../interfaces/user';
+import { UserInterface } from '../interfaces/user.interface';
 const User = require('../models/user');
 
 declare module 'express-session' {
