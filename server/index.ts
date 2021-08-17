@@ -1,7 +1,6 @@
 require('dotenv').config({ path: '../.env' });
 import express, { Application } from 'express';
 import session from 'express-session';
-import mongoose from 'mongoose';
 import connectDB from './config/db.js';
 const { register, login, logout } = require('./controllers/authCtrl');
 const { getUser } = require('./controllers/userCtrl');

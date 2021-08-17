@@ -21,8 +21,8 @@ module.exports = {
         if (foundUser) {
             return res.status(404).send('User already exists');
         }
-        const salt = bcrypt_1.default.genSaltSync(5);
-        const hash = bcrypt_1.default.hashSync(password, salt);
+        const salt = yield bcrypt_1.default.genSalt(5);
+        const hash = yield bcrypt_1.default.hash(password, salt);
         const newUser = new User({
             firstName,
             lastName,
@@ -38,20 +38,37 @@ module.exports = {
                 lastName: response.lastName,
                 email: response.email,
             };
-            return res.status(201).send('User created successfully');
+            return res.status(201).send(req.session.user);
         })
             .catch((err) => {
             return res.status(400).send('Unable to create user');
         });
     }),
     login: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        const { firstName, lastName, email, hash: password, } = req.body;
+        const { email, hash: password } = req.body;
         const foundUser = yield User.findOne({ email: email });
         if (!foundUser) {
             return res.status(404).send('User does not exist');
         }
+        const passwordsMatch = yield bcrypt_1.default.compare(password, foundUser.hash);
+        if (!passwordsMatch) {
+            return res.status(401).send('Incorrect password');
+        }
+        req.session.user = {
+            _id: foundUser._id,
+            firstName: foundUser.firstName,
+            lastName: foundUser.lastName,
+            email: foundUser.email,
+        };
+        return res.status(202).send(req.session.user);
     }),
-    delete: (req, res) => __awaiter(void 0, void 0, void 0, function* () { }),
-    logout: (req, res) => __awaiter(void 0, void 0, void 0, function* () { }),
+    logout: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        if (!req.session.user) {
+            return res.status(400).send('Not logged in.');
+        }
+        req.session.destroy(() => {
+            return res.status(200).send('Successfully logged out');
+        });
+    }),
 };
 //# sourceMappingURL=authCtrl.js.map

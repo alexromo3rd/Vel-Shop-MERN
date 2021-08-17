@@ -13,10 +13,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
-const { MONGO_URI } = process.env;
+const { NODE_ENV, MONGO_URI } = process.env;
+const connectionString = NODE_ENV === 'development' ? 'mongodb://localhost:27017/test' : MONGO_URI;
 const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const conn = yield mongoose_1.default.connect(MONGO_URI, {
+        const conn = yield mongoose_1.default.connect(connectionString, {
             useUnifiedTopology: true,
             useNewUrlParser: true,
             useCreateIndex: true,
