@@ -31,14 +31,26 @@ module.exports = {
         });
         newUser
             .save()
-            .then(() => {
+            .then((response) => {
+            req.session.user = {
+                _id: response._id,
+                firstName: response.firstName,
+                lastName: response.lastName,
+                email: response.email,
+            };
             return res.status(201).send('User created successfully');
         })
             .catch((err) => {
             return res.status(400).send('Unable to create user');
         });
     }),
-    login: (req, res) => __awaiter(void 0, void 0, void 0, function* () { }),
+    login: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const { firstName, lastName, email, hash: password, } = req.body;
+        const foundUser = yield User.findOne({ email: email });
+        if (!foundUser) {
+            return res.status(404).send('User does not exist');
+        }
+    }),
     delete: (req, res) => __awaiter(void 0, void 0, void 0, function* () { }),
     logout: (req, res) => __awaiter(void 0, void 0, void 0, function* () { }),
 };

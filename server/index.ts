@@ -1,12 +1,21 @@
 require('dotenv').config({ path: '../.env' });
-import express from 'express';
+import express, { Application } from 'express';
+import session from 'express-session';
 import mongoose from 'mongoose';
-const { register } = require('./controllers/authCtrl');
+const { register, login, logout } = require('./controllers/authCtrl');
 const { getUser } = require('./controllers/userCtrl');
 
-const { SERVER_PORT, MONGO_URI } = process.env;
-const app = express();
+const { NODE_ENV, SERVER_PORT, SESSION_SECRET, MONGO_URI } = process.env;
+const app: Application = express();
 app.use(express.json());
+app.use(
+  session({
+    secret: SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 1000 * 60 * 60 * 24 * 365 },
+  })
+);
 
 mongoose
   .connect(MONGO_URI, {
@@ -21,7 +30,9 @@ app.listen(SERVER_PORT, () => {
 });
 
 // Auth
-app.post('/api/auth', register);
+app.post('/api/register', register);
+app.post('/api/login', login);
+app.delete('/api/logout', logout);
 
 // User
 app.get('/api/users', getUser);
