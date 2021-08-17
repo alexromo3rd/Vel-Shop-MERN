@@ -14,7 +14,7 @@ mongoose_1.default.connect(MONGO_URI, {
     useUnifiedTopology: true,
 });
 const db = mongoose_1.default.connection;
-console.log(db);
+db.on('error', console.error.bind(console, 'MongoDB connection error'));
 app.listen(SERVER_PORT, () => {
     console.log(`Server is running on port ${SERVER_PORT}.`);
 });
