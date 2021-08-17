@@ -9,10 +9,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const User = require('../models/user');
 module.exports = {
-    getUser: (req, res) => __awaiter(void 0, void 0, void 0, function* () { }),
-    createUser: (req, res) => __awaiter(void 0, void 0, void 0, function* () { }),
-    updateUser: (req, res) => __awaiter(void 0, void 0, void 0, function* () { }),
+    updateUser: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const { id } = req.params;
+        const { email = null, password = null } = req.body;
+        const foundUser = yield User.findById(id);
+        if (!foundUser) {
+            return res.status(400).send('User not found');
+        }
+        if (!req.session.user) {
+            return res.status(400).send('Not logged in.');
+        }
+        if (req.session.user._id !== foundUser._id) {
+            return res.status(401).send('Cannot modify other users');
+        }
+    }),
     deleteUser: (req, res) => __awaiter(void 0, void 0, void 0, function* () { }),
 };
 //# sourceMappingURL=userCtrl.js.map

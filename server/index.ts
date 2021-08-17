@@ -3,7 +3,7 @@ import express, { Application } from 'express';
 import session from 'express-session';
 import connectDB from './config/db.js';
 const { register, login, logout } = require('./controllers/authCtrl');
-const { getUser } = require('./controllers/userCtrl');
+const { updateUser, deleteUser } = require('./controllers/userCtrl');
 const { SERVER_PORT, SESSION_SECRET } = process.env;
 
 connectDB();
@@ -29,4 +29,5 @@ app.post('/api/login', login);
 app.delete('/api/logout', logout);
 
 // User
-app.get('/api/users', getUser);
+app.put('/api/users/:id', updateUser);
+app.delete('/api/users/:id', deleteUser);

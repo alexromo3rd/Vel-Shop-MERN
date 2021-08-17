@@ -8,7 +8,7 @@ const express_1 = __importDefault(require("express"));
 const express_session_1 = __importDefault(require("express-session"));
 const db_js_1 = __importDefault(require("./config/db.js"));
 const { register, login, logout } = require('./controllers/authCtrl');
-const { getUser } = require('./controllers/userCtrl');
+const { updateUser, deleteUser } = require('./controllers/userCtrl');
 const { SERVER_PORT, SESSION_SECRET } = process.env;
 db_js_1.default();
 const app = express_1.default();
@@ -27,5 +27,6 @@ app.post('/api/register', register);
 app.post('/api/login', login);
 app.delete('/api/logout', logout);
 // User
-app.get('/api/users', getUser);
+app.put('/api/users/:id', updateUser);
+app.delete('/api/users/:id', deleteUser);
 //# sourceMappingURL=index.js.map
