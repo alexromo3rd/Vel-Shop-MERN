@@ -123,8 +123,7 @@ module.exports = {
 
       return res.status(200).send('Successfully deleted account');
     } else {
-      return res.status(400).send('User does not match');
+      return res.status(400).send('UserId does not match');
     }
-    return res.status(400).send('Unable to delete account');
   },
 };
