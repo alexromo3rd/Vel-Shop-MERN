@@ -21,6 +21,7 @@ const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {
             useUnifiedTopology: true,
             useNewUrlParser: true,
             useCreateIndex: true,
+            useFindAndModify: false,
         });
         console.log(`MongoDB Connected: ${conn.connection.host}`);
     }
