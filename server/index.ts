@@ -7,6 +7,7 @@ const { updateUser, deleteUser } = require('./controllers/userCtrl');
 const {
   getProduct,
   getAllProducts,
+  getProductsByCategory,
   createProduct,
   updateProduct,
   deleteProduct,
@@ -40,6 +41,7 @@ app.put('/api/users/:id', updateUser);
 app.delete('/api/users/:id', deleteUser);
 
 // Product endpoints
+app.get('/api/products/:category?', getProductsByCategory);
 app.get('/api/products', getAllProducts);
 app.post('/api/products', createProduct);
 app.get('/api/products/:id', getProduct);

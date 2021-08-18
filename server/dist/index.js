@@ -9,7 +9,7 @@ const express_session_1 = __importDefault(require("express-session"));
 const db_js_1 = __importDefault(require("./config/db.js"));
 const { register, login, logout } = require('./controllers/authCtrl');
 const { updateUser, deleteUser } = require('./controllers/userCtrl');
-const { getProduct, getAllProducts, createProduct, updateProduct, deleteProduct, } = require('./controllers/productCtrl');
+const { getProduct, getAllProducts, getProductsByCategory, createProduct, updateProduct, deleteProduct, } = require('./controllers/productCtrl');
 const { SERVER_PORT, SESSION_SECRET } = process.env;
 db_js_1.default();
 const app = express_1.default();
@@ -31,6 +31,7 @@ app.delete('/api/logout', logout);
 app.put('/api/users/:id', updateUser);
 app.delete('/api/users/:id', deleteUser);
 // Product endpoints
+app.get('/api/products/:category?', getProductsByCategory);
 app.get('/api/products', getAllProducts);
 app.post('/api/products', createProduct);
 app.get('/api/products/:id', getProduct);

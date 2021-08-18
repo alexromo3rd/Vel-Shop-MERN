@@ -26,6 +26,14 @@ module.exports = {
         }
         return res.status(200).send(foundProducts);
     }),
+    getProductsByCategory: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const { category } = req.query;
+        const foundProducts = yield Product.find({ category: category });
+        if (foundProducts.length === 0) {
+            return res.status(404).send(`No ${category} to display`);
+        }
+        return res.status(200).send(foundProducts);
+    }),
     createProduct: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const { name, category, description, countInStock, price, } = req.body;
         const foundProduct = yield Product.findOne({ name: name });
@@ -49,25 +57,26 @@ module.exports = {
         });
     }),
     updateProduct: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        const { name = null, category = null, description = null, countInStock = null, price = null, } = req.body;
-        const foundProduct = yield Product.findOne({ name: name });
-        if (foundProduct) {
-            return res.status(400).send('Product already exists');
+        const { id } = req.params;
+        const { name, category, description, countInStock, price, } = req.body;
+        const foundProduct = yield Product.findById(id);
+        if (!foundProduct) {
+            return res.status(400).send('Product does not exist');
         }
-        const newProduct = new Product({
-            name,
-            category,
-            description,
-            countInStock,
-            price,
-        });
-        newProduct
+        const updatedProduct = yield Product.findOneAndUpdate({ _id: foundProduct._id }, {
+            name: name || foundProduct.name,
+            category: category || foundProduct.category,
+            description: description || foundProduct.description,
+            countInStock: countInStock || foundProduct.countInStock,
+            price: price || foundProduct.price,
+        }, { new: true });
+        yield updatedProduct
             .save()
             .then((response) => {
-            return res.status(201).send(response);
+            return res.status(202).send(response);
         })
             .catch((err) => {
-            return res.status(400).send('Unable to create product');
+            return res.status(400).send('Unable to update product');
         });
     }),
     deleteProduct: (req, res) => __awaiter(void 0, void 0, void 0, function* () {

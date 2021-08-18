@@ -22,6 +22,16 @@ module.exports = {
 
     return res.status(200).send(foundProducts);
   },
+  getProductsByCategory: async (req: Request, res: Response) => {
+    const { category } = req.query;
+
+    const foundProducts = await Product.find({ category: category });
+    if (foundProducts.length === 0) {
+      return res.status(404).send(`No ${category} to display`);
+    }
+
+    return res.status(200).send(foundProducts);
+  },
   createProduct: async (req: Request, res: Response) => {
     const {
       name,
@@ -54,7 +64,49 @@ module.exports = {
         return res.status(400).send('Unable to create product');
       });
   },
-  updateProduct: async (req: Request, res: Response) => {},
+  updateProduct: async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const {
+      name,
+      category,
+      description,
+      countInStock,
+      price,
+    }: {
+      name: string | null;
+      category: string | null;
+      description: string | null;
+      countInStock: number | null;
+      price: number | null;
+    } = req.body;
+
+    const foundProduct = await Product.findById(id);
+
+    if (!foundProduct) {
+      return res.status(400).send('Product does not exist');
+    }
+
+    const updatedProduct = await Product.findOneAndUpdate(
+      { _id: foundProduct._id },
+      {
+        name: name || foundProduct.name,
+        category: category || foundProduct.category,
+        description: description || foundProduct.description,
+        countInStock: countInStock || foundProduct.countInStock,
+        price: price || foundProduct.price,
+      },
+      { new: true }
+    );
+
+    await updatedProduct
+      .save()
+      .then((response: ProductInterface) => {
+        return res.status(202).send(response);
+      })
+      .catch((err) => {
+        return res.status(400).send('Unable to update product');
+      });
+  },
   deleteProduct: async (req: Request, res: Response) => {
     const { id } = req.params;
 
