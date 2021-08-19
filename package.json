@@ -49,9 +49,9 @@
       "last 1 safari version"
     ]
   },
-  "main": "server/dist/index.js",
-  "proxy": "http://localhost:5000",
   "devDependencies": {
     "@types/react-router-dom": "^5.1.8"
-  }
+  },
+  "main": "server/dist/index.js",
+  "proxy": "http://localhost:5000"
 }

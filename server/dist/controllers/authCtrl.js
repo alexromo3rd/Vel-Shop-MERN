@@ -19,7 +19,7 @@ module.exports = {
         const { firstName, lastName, email, hash: password, } = req.body;
         const foundUser = yield User.findOne({ email: email });
         if (foundUser) {
-            return res.status(404).send('User already exists');
+            return res.status(409).send('User already exists');
         }
         const salt = yield bcrypt_1.default.genSalt(5);
         const hash = yield bcrypt_1.default.hash(password, salt);

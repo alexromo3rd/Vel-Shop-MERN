@@ -26,7 +26,7 @@ module.exports = {
     const foundUser = await User.findOne({ email: email });
 
     if (foundUser) {
-      return res.status(404).send('User already exists');
+      return res.status(409).send('User already exists');
     }
 
     const salt = await bcrypt.genSalt(5);
