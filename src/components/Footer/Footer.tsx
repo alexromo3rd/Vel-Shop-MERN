@@ -1,14 +1,9 @@
 import React from 'react';
-import {
-  FaInstagram,
-  FaFacebookF,
-  FaTwitter,
-  FaYoutube,
-  FaSpotify,
-} from 'react-icons/fa';
+import { FaFacebookF, FaTwitter, FaYoutube, FaSpotify } from 'react-icons/fa';
+import { AiFillInstagram } from 'react-icons/ai';
 import './Footer.scss';
 
-const iconStyle = { color: '#fff', fontSize: '24px' };
+const iconStyle = { color: '#000', fontSize: '24px' };
 
 const Footer = () => {
   return (
@@ -19,7 +14,7 @@ const Footer = () => {
         rel='noreferrer'
         className='inline-link'
       >
-        <FaInstagram style={iconStyle} />
+        <AiFillInstagram style={iconStyle} />
       </a>
       <a
         href='https://www.facebook.com/Vel-9-383125315074652/'
