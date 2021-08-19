@@ -1,0 +1,36 @@
+#navbar {
+  position: fixed;
+  display: flex;
+  height: 60px;
+  width: 100%;
+  padding: 0 20px;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #6699cc;
+
+  h2 {
+    width: 60%;
+
+    a {
+      color: #fff;
+      text-decoration: none;
+    }
+  }
+
+  ul {
+    display: flex;
+    justify-content: space-around;
+    width: 40%;
+    list-style: none;
+
+    li {
+      font-size: 20px;
+
+      a {
+        color: #fff;
+        font-weight: bold;
+        text-decoration: none;
+      }
+    }
+  }
+}
