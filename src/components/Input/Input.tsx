@@ -15,7 +15,16 @@ const Input = ({
   return (
     <>
       <label htmlFor={name}>{label}</label>
-      <input />
+      <input
+        id={name}
+        name={name}
+        type={type}
+        placeholder={placeholder}
+        onChange={handleChange}
+        value={value}
+        className={`input ${className}`}
+        required={required}
+      />
     </>
   );
 };

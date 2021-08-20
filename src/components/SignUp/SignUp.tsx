@@ -1,34 +1,42 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import UserInterface from '../../interfaces/user.interface';
 import { createUser } from '../../redux/reducers/userReducer';
 import Button from '../Button/Button';
+import Input from '../Input/Input';
 import './SignUp.scss';
 
 const SignUp = () => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [userInfo, setUserInfo] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    hash: '',
+    confirmHash: '',
+  });
 
   const dispatch = useDispatch();
 
-  const userObj: UserInterface = {
-    firstName: 'Alex',
-    lastName: 'Romo',
-    email: 'ayromo08@gmail.com',
-    hash: 'password',
-  };
-
-  const handleSubmit = (userObj: UserInterface): any => {
-    dispatch(createUser(userObj));
+  const handleSubmit = (userInfo: UserInterface): any => {
+    dispatch(createUser(userInfo));
   };
 
   return (
     <div id='signup'>
+      <Input
+        name={'firstName'}
+        label={'First Name'}
+        type='text'
+        placeholder='John'
+        handleChange={({ target }) =>
+          setUserInfo((state) => ({ ...state, firstName: target.value }))
+        }
+        value={userInfo.firstName}
+        className={''}
+        required={true}
+      />
       {/* <Button label='Submit' styleName='submit' handleClick={handleSubmit} /> */}
-      <button onClick={() => handleSubmit(userObj)}>Submit</button>
+      <button onClick={() => handleSubmit(userInfo)}>Submit</button>
     </div>
   );
 };
