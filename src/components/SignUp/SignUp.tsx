@@ -6,7 +6,12 @@ import Button from '../Button/Button';
 import './SignUp.scss';
 
 const SignUp = () => {
-  const user = useSelector((state) => state);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
   const dispatch = useDispatch();
 
   const userObj: UserInterface = {
